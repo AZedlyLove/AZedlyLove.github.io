@@ -125,13 +125,16 @@
         .game-player {
             background: #000000;
             border-radius: 1.5rem;
-            overflow: hidden;
             margin-top: 2rem;
             display: none;
+            /* 新增：让容器居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
             .game-player.active {
-                display: block;
+                display: flex;
             }
 
         .game-header {
@@ -158,10 +161,16 @@
             }
 
         #unity-canvas {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: #1a1a2e;
+            /* 固定9:16比例，不拉伸 */
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 70vh; /* 限制最大高度，避免太高 */
+            aspect-ratio: 9 / 16; /* 关键：固定9:16比例 */
+            background: #000000;
             display: block;
+            /* 让canvas居中 */
+            margin: 0 auto;
         }
 
         .loading-placeholder {
