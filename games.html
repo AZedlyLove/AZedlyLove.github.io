@@ -1,0 +1,274 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>游戏 - 我的个人网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(15, 15, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+            .nav-links a {
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s;
+                padding: 0.5rem 0;
+            }
+
+                .nav-links a:hover,
+                .nav-links a.active {
+                    color: #667eea;
+                    border-bottom: 2px solid #667eea;
+                }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+            .page-header h1 {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .page-header p {
+                color: #a0a0c0;
+            }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+            .game-card:hover {
+                transform: translateY(-5px);
+                background: rgba(255, 255, 255, 0.1);
+            }
+
+        .game-icon {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .game-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .game-card p {
+            font-size: 0.8rem;
+            color: #a0a0c0;
+        }
+
+        .game-player {
+            background: #000000;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            margin-top: 2rem;
+            display: none;
+        }
+
+            .game-player.active {
+                display: block;
+            }
+
+        .game-header {
+            background: rgba(0,0,0,0.5);
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .close-game {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+            .close-game:hover {
+                background: #ff4444;
+            }
+
+        #unity-canvas {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #1a1a2e;
+            display: block;
+        }
+
+        .loading-placeholder {
+            text-align: center;
+            padding: 4rem;
+            color: #a0a0c0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #8080a0;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">MyWebsite</div>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="games.html" class="active">🎮 游戏</a>
+                <a href="#">🎵 音乐</a>
+                <a href="#">📹 视频</a>
+                <a href="#">🖼️ 图片</a>
+                <a href="#">🔧 工具</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="page-header">
+            <h1>🎮 游戏区</h1>
+            <p>点击下方任意游戏，即可在线游玩（Unity WebGL）</p>
+        </div>
+
+        <div class="games-grid" id="games-list">
+            <div class="game-card" data-game-id="test">
+                <div class="game-icon">🎮</div>
+                <h3>测试游戏</h3>
+                <p>演示效果，点击试试</p>
+            </div>
+        </div>
+
+        <div class="game-player" id="game-player">
+            <div class="game-header">
+                <span id="current-game-name">游戏中</span>
+                <button class="close-game" id="close-game">✕ 关闭游戏</button>
+            </div>
+            <canvas id="unity-canvas"></canvas>
+            <div class="loading-placeholder" id="loading-placeholder">✨ 点击游戏开始 ✨</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2025 我的个人网站 | 游戏使用 Unity WebGL 技术</p>
+    </footer>
+
+    <script>
+        // 注意：这是演示版代码，先让你看到页面效果
+        // 等你的Unity游戏打包好后，再替换成真正的加载代码
+
+        const gamePlayerDiv = document.getElementById('game-player');
+        const loadingPlaceholder = document.getElementById('loading-placeholder');
+        const currentGameNameSpan = document.getElementById('current-game-name');
+        const closeBtn = document.getElementById('close-game');
+
+        function closeGame() {
+            gamePlayerDiv.classList.remove('active');
+            loadingPlaceholder.innerText = '✨ 点击游戏开始 ✨';
+            loadingPlaceholder.style.color = '#a0a0c0';
+        }
+
+        function demoLoadGame(gameName) {
+            if (gamePlayerDiv.classList.contains('active')) {
+                closeGame();
+            }
+            currentGameNameSpan.innerText = gameName;
+            gamePlayerDiv.classList.add('active');
+            loadingPlaceholder.style.display = 'block';
+            loadingPlaceholder.innerText = '🎮 演示模式：这是游戏加载区域\n\n等你把Unity游戏打包好后，这里会真正加载游戏。';
+            loadingPlaceholder.style.color = '#a0a0c0';
+            loadingPlaceholder.style.whiteSpace = 'pre-line';
+            loadingPlaceholder.style.textAlign = 'center';
+        }
+
+        document.querySelectorAll('.game-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const gameName = card.querySelector('h3')?.innerText || '游戏';
+                demoLoadGame(gameName);
+            });
+        });
+
+        closeBtn.addEventListener('click', closeGame);
+    </script>
+</body>
+</html>
