@@ -127,21 +127,20 @@
             border-radius: 1.5rem;
             margin-top: 2rem;
             display: none;
-            /* 新增：让容器居中 */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            max-width: 400px; /* 可根据喜好调整整体宽度 */
+            margin-left: auto;
+            margin-right: auto;
         }
 
             .game-player.active {
-                display: flex;
+                display: block;
             }
 
         .game-header {
             background: rgba(0,0,0,0.5);
             padding: 0.75rem 1rem;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* 左右分开：左边名字，右边关闭按钮 */
             align-items: center;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
@@ -161,16 +160,17 @@
             }
 
         #unity-canvas {
-            /* 固定9:16比例，不拉伸 */
+            /* 自动适应游戏原比例 */
             width: auto;
             height: auto;
             max-width: 100%;
             max-height: 70vh; /* 限制最大高度，避免太高 */
-            aspect-ratio: 9 / 16; /* 关键：固定9:16比例 */
+            /* aspect-ratio: 9 / 16; */ /* 注释掉这一行，不再强制比例 */
             background: #000000;
             display: block;
             /* 让canvas居中 */
             margin: 0 auto;
+            object-fit: contain; /* 添加这一行：保持游戏原比例，不变形 */
         }
 
         .loading-placeholder {
