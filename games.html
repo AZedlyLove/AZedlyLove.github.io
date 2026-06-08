@@ -325,6 +325,11 @@
                         }
                     );
                     currentUnityInstance = unityInstance;
+                    setTimeout(() => {
+                        const canvas = document.getElementById('unity-canvas');
+                        canvas.width = 720;
+                        canvas.height = 1080;
+                    }, 100);
                     loadingPlaceholder.style.display = 'none';
                     unityCanvas.style.display = 'block';
                 } catch (err) {
