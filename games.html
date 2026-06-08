@@ -13,19 +13,20 @@
 
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
-            color: #ffffff;
+            background: #f5f5f7;
+            color: #1a1a2e;
             min-height: 100vh;
         }
 
         .navbar {
-            background: rgba(15, 15, 26, 0.95);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
         .nav-container {
@@ -54,7 +55,7 @@
         }
 
             .nav-links a {
-                color: #ffffff;
+                color: #333;
                 text-decoration: none;
                 font-weight: 500;
                 transition: color 0.2s;
@@ -80,10 +81,11 @@
             .page-header h1 {
                 font-size: 2rem;
                 margin-bottom: 0.5rem;
+                color: #1a1a2e;
             }
 
             .page-header p {
-                color: #a0a0c0;
+                color: #666;
             }
 
         .games-grid {
@@ -94,17 +96,18 @@
         }
 
         .game-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: #ffffff;
             border-radius: 1rem;
             padding: 1.5rem;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
             .game-card:hover {
                 transform: translateY(-5px);
-                background: rgba(255, 255, 255, 0.1);
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             }
 
         .game-icon {
@@ -115,14 +118,14 @@
         .game-card h3 {
             font-size: 1.1rem;
             margin-bottom: 0.25rem;
+            color: #1a1a2e;
         }
 
         .game-card p {
             font-size: 0.8rem;
-            color: #a0a0c0;
+            color: #888;
         }
 
-        /* 游戏窗口 - 固定 16:9，居中显示 */
         .game-player {
             background: #000000;
             border-radius: 1.5rem;
@@ -135,6 +138,7 @@
             margin-right: auto;
             overflow: hidden;
             flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
 
             .game-player.active {
@@ -142,30 +146,34 @@
             }
 
         .game-header {
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.7);
             padding: 0.75rem 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             flex-shrink: 0;
         }
 
+            .game-header span {
+                color: white;
+            }
+
         .close-game {
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
             color: white;
             padding: 0.25rem 0.75rem;
             border-radius: 2rem;
             cursor: pointer;
             font-size: 0.8rem;
+            transition: background 0.2s;
         }
 
             .close-game:hover {
                 background: #ff4444;
             }
 
-        /* canvas 填满游戏窗口，由 Unity 自己控制渲染 */
         #unity-canvas {
             flex: 1;
             width: 100%;
@@ -177,14 +185,14 @@
         .loading-placeholder {
             text-align: center;
             padding: 4rem;
-            color: #a0a0c0;
+            color: #888;
         }
 
         .footer {
             text-align: center;
             padding: 2rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #8080a0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #888;
             font-size: 0.9rem;
             margin-top: 3rem;
         }
