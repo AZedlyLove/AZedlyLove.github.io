@@ -122,6 +122,7 @@
             color: #a0a0c0;
         }
 
+        /* 修复：移除重复的 display 定义 */
         .game-player {
             background: #000000;
             border-radius: 1.5rem;
@@ -133,7 +134,6 @@
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
-            display: flex;
             flex-direction: column;
             position: relative;
         }
@@ -166,6 +166,7 @@
                 background: #ff4444;
             }
 
+        /* 修复：canvas 使用 object-fit 保持比例 */
         #unity-canvas {
             flex: 1;
             width: 100%;
@@ -222,13 +223,7 @@
             <p>点击下方任意游戏，即可在线游玩（Unity WebGL）</p>
         </div>
 
-        <div class="games-grid" id="games-list">
-            <div class="game-card" data-game-id="test">
-                <div class="game-icon">🎮</div>
-                <h3>测试游戏</h3>
-                <p>演示效果，点击试试</p>
-            </div>
-        </div>
+        <div class="games-grid" id="games-list"></div>
 
         <div class="game-player" id="game-player">
             <div class="game-header">
@@ -249,25 +244,14 @@
         // 游戏配置区域：在这里添加你的游戏
         // ================================================
         const gamesConfig = {
-            // 第一个游戏示例
             FlyBird: {
-                name: "我的第一个游戏",
+                name: "FlyBird",
                 buildPath: "games/FlyBird/Build",
                 loaderFile: "FlyBird.loader.js",
                 dataFile: "FlyBird.data",
                 frameworkFile: "FlyBird.framework.js",
                 wasmFile: "FlyBird.wasm"
             }
-            // 以后加第二个游戏，在这里加逗号和下面的内容：
-            // ,
-            // game2: {
-            //     name: "第二个游戏",
-            //     buildPath: "games/game2/Build",
-            //     loaderFile: "game2.loader.js",
-            //     dataFile: "game2.data",
-            //     frameworkFile: "game2.framework.js",
-            //     wasmFile: "game2.wasm"
-            // }
         };
 
         // ================================================
@@ -282,16 +266,30 @@
         const currentGameNameSpan = document.getElementById('current-game-name');
         const closeBtn = document.getElementById('close-game');
 
+        // 修复：完善关闭游戏函数
         function closeGame() {
             if (currentUnityInstance && typeof currentUnityInstance.Quit === 'function') {
                 currentUnityInstance.Quit();
             }
             currentUnityInstance = null;
             currentGameId = null;
+
+            // 隐藏游戏容器
             gamePlayerDiv.classList.remove('active');
+
+            // 重置加载提示
             loadingPlaceholder.innerText = '✨ 点击游戏开始 ✨';
             loadingPlaceholder.style.color = '#a0a0c0';
             loadingPlaceholder.style.display = 'flex';
+
+            // 隐藏 canvas
+            unityCanvas.style.display = 'none';
+
+            // 清空 canvas 内容
+            const ctx = unityCanvas.getContext('2d');
+            if (ctx) {
+                ctx.clearRect(0, 0, unityCanvas.width, unityCanvas.height);
+            }
         }
 
         async function loadGame(gameId) {
@@ -301,17 +299,23 @@
                 return;
             }
 
+            // 如果有游戏正在运行，先关闭
             if (currentUnityInstance) {
                 closeGame();
             }
 
             currentGameId = gameId;
             currentGameNameSpan.innerText = config.name;
+
+            // 显示游戏容器
             gamePlayerDiv.classList.add('active');
+
+            // 显示加载提示
             loadingPlaceholder.style.display = 'flex';
             loadingPlaceholder.innerText = '加载中 0%';
             unityCanvas.style.display = 'none';
 
+            // 动态加载 Unity loader
             const scriptUrl = `${config.buildPath}/${config.loaderFile}`;
             const script = document.createElement('script');
             script.src = scriptUrl;
@@ -333,12 +337,17 @@
                             loadingPlaceholder.innerText = `加载中 ${Math.round(progress * 100)}%`;
                         }
                     );
+
                     currentUnityInstance = unityInstance;
+
+                    // 确保 canvas 样式正确
                     unityCanvas.style.objectFit = 'contain';
                     unityCanvas.style.width = '100%';
                     unityCanvas.style.height = '100%';
+
                     loadingPlaceholder.style.display = 'none';
                     unityCanvas.style.display = 'block';
+
                 } catch (err) {
                     console.error('游戏加载失败', err);
                     loadingPlaceholder.innerText = '加载失败：' + err.message;
@@ -354,21 +363,7 @@
             document.body.appendChild(script);
         }
 
-        // 绑定游戏卡片点击事件
-        document.querySelectorAll('.game-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const gameId = card.getAttribute('data-game-id');
-                if (gamesConfig[gameId]) {
-                    loadGame(gameId);
-                } else {
-                    alert('游戏 ' + gameId + ' 尚未配置，请在 gamesConfig 中添加');
-                }
-            });
-        });
-
-        closeBtn.addEventListener('click', closeGame);
-
-        // 生成游戏卡片（根据gamesConfig自动生成）
+        // 生成游戏卡片
         function renderGameCards() {
             const container = document.getElementById('games-list');
             if (!container) return;
@@ -376,16 +371,16 @@
             let html = '';
             for (const [id, config] of Object.entries(gamesConfig)) {
                 html += `
-                <div class="game-card" data-game-id="${id}">
-                    <div class="game-icon">🎮</div>
-                    <h3>${config.name}</h3>
-                    <p>点击游玩</p>
-                </div>
-            `;
+                        <div class="game-card" data-game-id="${id}">
+                            <div class="game-icon">🎮</div>
+                            <h3>${config.name}</h3>
+                            <p>点击游玩</p>
+                        </div>
+                    `;
             }
             container.innerHTML = html;
 
-            // 重新绑定事件
+            // 绑定点击事件
             document.querySelectorAll('.game-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const gameId = card.getAttribute('data-game-id');
@@ -394,6 +389,12 @@
             });
         }
 
+        // 绑定关闭按钮事件
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeGame);
+        }
+
+        // 初始化页面
         renderGameCards();
     </script>
 </body>
