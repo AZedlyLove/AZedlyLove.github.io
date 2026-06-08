@@ -135,6 +135,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
             .game-player.active {
@@ -250,7 +251,7 @@
         const gamesConfig = {
             // 第一个游戏示例
             FlyBird: {
-                name: "FlyBird",
+                name: "我的第一个游戏",
                 buildPath: "games/FlyBird/Build",
                 loaderFile: "FlyBird.loader.js",
                 dataFile: "FlyBird.data",
@@ -333,6 +334,9 @@
                         }
                     );
                     currentUnityInstance = unityInstance;
+                    unityCanvas.style.objectFit = 'contain';
+                    unityCanvas.style.width = '100%';
+                    unityCanvas.style.height = '100%';
                     loadingPlaceholder.style.display = 'none';
                     unityCanvas.style.display = 'block';
                 } catch (err) {
