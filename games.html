@@ -18,7 +18,6 @@
             min-height: 100vh;
         }
 
-        /* 导航栏 */
         .navbar {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
@@ -53,20 +52,41 @@
             display: flex;
             gap: 2rem;
             flex-wrap: wrap;
+            align-items: center;
         }
 
             .nav-links a {
+                position: relative;
+                display: inline-block;
+                padding: 0.5rem 0;
                 color: #333;
                 text-decoration: none;
                 font-weight: 500;
-                transition: color 0.2s;
-                padding: 0.5rem 0;
+                transition: color 0.2s ease;
+                line-height: 1;
             }
+
+                .nav-links a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: #667eea;
+                    transform: scaleX(0);
+                    transition: transform 0.25s ease;
+                    transform-origin: center;
+                }
+
+                .nav-links a:hover::after,
+                .nav-links a.active::after {
+                    transform: scaleX(1);
+                }
 
                 .nav-links a:hover,
                 .nav-links a.active {
                     color: #667eea;
-                    border-bottom: 2px solid #667eea;
                 }
 
         .container {
@@ -89,7 +109,6 @@
                 color: #666;
             }
 
-        /* 游戏列表 */
         .games-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -103,13 +122,13 @@
             padding: 1.5rem;
             text-align: center;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
 
             .game-card:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transform: translateY(-4px);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             }
 
         .game-icon {
@@ -128,14 +147,14 @@
             color: #888;
         }
 
-        /* 游戏窗口 - 动态比例，由每个游戏配置决定 */
         .game-player {
             background: #000000;
             border-radius: 1.5rem;
             margin-top: 2rem;
             display: none;
             width: 100%;
-            max-width: 600px; /* 默认最大宽度，可被单独配置覆盖 */
+            max-width: 400px;
+            aspect-ratio: 9 / 16;
             margin-left: auto;
             margin-right: auto;
             overflow: hidden;
@@ -176,7 +195,6 @@
                 background: #ff4444;
             }
 
-        /* canvas 填满游戏窗口 */
         #unity-canvas {
             width: 100%;
             height: 100%;
@@ -208,67 +226,6 @@
                 padding: 1rem;
             }
         }
-
-        /* 卡片悬停效果 */
-        .game-card,
-        .article-card,
-        .feature-card {
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-
-            .game-card:hover,
-            .article-card:hover,
-            .feature-card:hover {
-                transform: translateY(-6px);
-                box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.15);
-            }
-
-        /* 导航链接悬停 */
-        .nav-links a {
-            position: relative;
-            display: inline-block;
-            transition: color 0.2s ease;
-        }
-
-            .nav-links a::after {
-                content: '';
-                position: absolute;
-                bottom: -2px;
-                left: 0;
-                width: 100%;
-                height: 2px;
-                background: #667eea;
-                transform: scaleX(0);
-                transition: transform 0.25s ease;
-                transform-origin: center;
-            }
-
-            .nav-links a:hover::after,
-            .nav-links a.active::after {
-                transform: scaleX(1);
-            }
-
-        /* 按钮悬停 */
-        button,
-        .close-game,
-        .game-card {
-            transition: all 0.2s ease;
-        }
-
-            button:hover,
-            .close-game:hover {
-                transform: scale(1.02);
-                background: #ff4444;
-            }
-
-        /* 头像悬停 */
-        .avatar img {
-            transition: transform 0.3s ease;
-        }
-
-            .avatar img:hover {
-                transform: scale(1.05);
-            }
     </style>
 </head>
 <body>
@@ -277,18 +234,15 @@
             <div class="logo">MyWebsite</div>
             <div class="nav-links">
                 <a href="index.html">首页</a>
-                <a href="games.html" class="active">🎮 游戏</a>
-                <a href="#">🎵 音乐</a>
-                <a href="#">📹 视频</a>
-                <a href="#">🖼️ 图片</a>
-                <a href="#">🔧 工具</a>
+                <a href="articles.html">文章</a>
+                <a href="games.html" class="active">游戏</a>
             </div>
         </div>
     </nav>
 
     <main class="container">
         <div class="page-header">
-            <h1>🎮 游戏区</h1>
+            <h1>游戏区</h1>
             <p>点击下方任意游戏，即可在线游玩</p>
         </div>
 
@@ -297,10 +251,10 @@
         <div class="game-player" id="game-player">
             <div class="game-header">
                 <span id="current-game-name">游戏中</span>
-                <button class="close-game" id="close-game">✕ 关闭游戏</button>
+                <button class="close-game" id="close-game">关闭</button>
             </div>
             <canvas id="unity-canvas"></canvas>
-            <div class="loading-placeholder" id="loading-placeholder">✨ 点击游戏开始 ✨</div>
+            <div class="loading-placeholder" id="loading-placeholder">点击游戏开始</div>
         </div>
     </main>
 
@@ -309,9 +263,6 @@
     </footer>
 
     <script>
-        // ================================================
-        // 游戏配置区域
-        // ================================================
         const gamesConfig = {
             FlyBird: {
                 name: "FlyBird",
@@ -320,27 +271,11 @@
                 dataFile: "FlyBird.data",
                 frameworkFile: "FlyBird.framework.js",
                 wasmFile: "FlyBird.wasm",
-                // 游戏比例 = 宽/高，9:16 则 9/16 = 0.5625，这里写宽/高的比值或直接写宽高比字符串
-                aspectRatio: "9 / 16",      // 9:16 竖屏
-                maxWidth: 400               // 可选：游戏窗口最大宽度（px）
+                aspectRatio: "9 / 16",
+                maxWidth: 400
             }
-            // 添加新游戏示例：
-            // ,
-            // ShooterGame: {
-            //     name: "射击游戏",
-            //     buildPath: "games/Shooter/Build",
-            //     loaderFile: "Shooter.loader.js",
-            //     dataFile: "Shooter.data",
-            //     frameworkFile: "Shooter.framework.js",
-            //     wasmFile: "Shooter.wasm",
-            //     aspectRatio: "16 / 9",    // 16:9 横屏
-            //     maxWidth: 800
-            // }
         };
 
-        // ================================================
-        // 以下代码不需要修改
-        // ================================================
         let currentUnityInstance = null;
         let currentGameId = null;
 
@@ -357,7 +292,7 @@
             currentUnityInstance = null;
             currentGameId = null;
             gamePlayerDiv.classList.remove('active');
-            loadingPlaceholder.innerText = '✨ 点击游戏开始 ✨';
+            loadingPlaceholder.innerText = '点击游戏开始';
             loadingPlaceholder.style.color = '#888';
             loadingPlaceholder.style.display = 'flex';
             unityCanvas.style.display = 'none';
@@ -370,19 +305,15 @@
                 return;
             }
 
-            // 关闭当前游戏
             if (currentUnityInstance) {
                 closeGame();
             }
 
-            // 根据游戏配置设置窗口比例
             if (config.aspectRatio) {
                 gamePlayerDiv.style.aspectRatio = config.aspectRatio;
             }
             if (config.maxWidth) {
                 gamePlayerDiv.style.maxWidth = config.maxWidth + 'px';
-            } else {
-                gamePlayerDiv.style.maxWidth = '600px'; // 默认值
             }
 
             currentGameId = gameId;
@@ -392,7 +323,6 @@
             loadingPlaceholder.innerText = '加载中 0%';
             unityCanvas.style.display = 'none';
 
-            // 动态加载 Unity loader
             const scriptUrl = `${config.buildPath}/${config.loaderFile}`;
             const script = document.createElement('script');
             script.src = scriptUrl;
@@ -432,11 +362,9 @@
             document.body.appendChild(script);
         }
 
-        // 生成游戏卡片列表
         function renderGameCards() {
             const container = document.getElementById('games-list');
             if (!container) return;
-
             let html = '';
             for (const [id, config] of Object.entries(gamesConfig)) {
                 html += `
@@ -448,8 +376,6 @@
                     `;
             }
             container.innerHTML = html;
-
-            // 绑定点击事件
             document.querySelectorAll('.game-card').forEach(card => {
                 card.addEventListener('click', () => {
                     const gameId = card.getAttribute('data-game-id');
@@ -458,12 +384,7 @@
             });
         }
 
-        // 绑定关闭按钮
-        if (closeBtn) {
-            closeBtn.addEventListener('click', closeGame);
-        }
-
-        // 初始化
+        closeBtn.addEventListener('click', closeGame);
         renderGameCards();
     </script>
 </body>
