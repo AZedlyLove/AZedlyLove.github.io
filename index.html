@@ -13,15 +13,19 @@
 
         body {
             font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f7;
+            background-image: url('background.jpg'); /* 替换成你的图片文件名 */
+            background-size: cover; /* 图片覆盖整个页面 */
+            background-position: center; /* 图片居中 */
+            background-attachment: fixed; /* 图片固定，滚动时不动 */
+            background-repeat: no-repeat; /* 不重复 */
             color: #1a1a2e;
             min-height: 100vh;
         }
 
         /* 导航栏 */
         .navbar {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.85); /* 0.85 = 85%不透明，15%透明 */
+            backdrop-filter: blur(10px); /* 毛玻璃效果 */
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
@@ -101,7 +105,8 @@
             display: flex;
             align-items: center;
             gap: 2rem;
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            background: rgba(255, 255, 255, 0.85); /* 半透明白色 */
+            backdrop-filter: blur(5px); /* 可选：毛玻璃效果 */
             border-radius: 2rem;
             padding: 2rem;
             margin-bottom: 2rem;
@@ -167,7 +172,8 @@
 
         /* 文章板块 */
         .articles-section {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.85); /* 半透明白色 */
+            backdrop-filter: blur(5px); /* 可选：毛玻璃效果 */
             border-radius: 1.5rem;
             padding: 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -206,7 +212,7 @@
         .article-item {
             padding: 1rem;
             border-radius: 1rem;
-            background: #f9f9fb;
+            background: rgba(249, 249, 251, 0.9);
             transition: all 0.3s ease;
             text-decoration: none;
             display: block;
@@ -231,7 +237,8 @@
 
         /* 游戏板块 */
         .games-section {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.85); /* 半透明白色 */
+            backdrop-filter: blur(5px); /* 可选：毛玻璃效果 */
             border-radius: 1.5rem;
             padding: 1.5rem;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
@@ -244,7 +251,8 @@
         }
 
         .game-card {
-            background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
+            background: rgba(255, 255, 255, 0.85); /* 半透明白色 */
+            backdrop-filter: blur(5px); /* 可选：毛玻璃效果 */
             border-radius: 1rem;
             padding: 1rem;
             text-align: center;
@@ -255,6 +263,7 @@
         }
 
             .game-card:hover {
+                background: rgba(255, 255, 255, 0.95);
                 transform: translateY(-4px);
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             }
@@ -328,7 +337,7 @@
     </main>
 
     <footer class="footer">
-        <p>© 2025 我的个人网站 | 慢慢建设中</p>
+        <p>© 2026 我的个人网站 | 慢慢建设中</p>
     </footer>
 
     <script>
