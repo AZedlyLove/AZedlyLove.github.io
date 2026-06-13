@@ -143,6 +143,84 @@
             max-width: 500px;
         }
 
+        /* 音乐播放器 */
+        .music-player {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        /* 旋转唱片/音符 */
+        .disc-rotate {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease;
+        }
+
+            .disc-rotate.playing {
+                animation: spin 3s linear infinite;
+            }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .music-note {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        /* 播放暂停按钮 */
+        .play-pause-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(102, 126, 234, 0.2);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .play-pause-btn:hover {
+                background: rgba(102, 126, 234, 0.4);
+                transform: scale(1.05);
+            }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .profile-section {
+                flex-wrap: wrap;
+                justify-content: center;
+                text-align: center;
+            }
+
+            .profile-info {
+                text-align: center;
+            }
+
+            .music-player {
+                margin-top: 0.5rem;
+            }
+        }
+
         /* 双列布局 */
         .two-columns {
             display: grid;
@@ -309,11 +387,17 @@
     <main class="container">
         <div class="profile-section">
             <div class="avatar">
-                <img src="avatar.jpg" alt="头像" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="avatar.jpg" alt="头像" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
             </div>
             <div class="profile-info">
                 <h1>你好，我是 [AZedlyLove]</h1>
                 <p>这是我的个人空间，欢迎。</p>
+            </div>
+            <div class="music-player" id="musicPlayer">
+                <div class="disc-rotate" id="discRotate">
+                    <div class="music-note">🎵</div>
+                </div>
+                <button class="play-pause-btn" id="playPauseBtn">⏸️</button>
             </div>
         </div>
 
@@ -385,11 +469,11 @@
             let html = '';
             articles.forEach(article => {
                 html += `
-                    <a href="${article.link}" class="article-item">
-                        <div class="article-title">${article.title}</div>
-                        <div class="article-meta">${article.date}</div>
-                    </a>
-                `;
+                        <a href="${article.link}" class="article-item">
+                            <div class="article-title">${article.title}</div>
+                            <div class="article-meta">${article.date}</div>
+                        </a>
+                    `;
             });
             container.innerHTML = html;
         }
@@ -401,12 +485,12 @@
             let html = '';
             games.slice(0, 4).forEach(game => {
                 html += `
-                    <a href="${game.link}" class="game-card">
-                        <div class="game-icon">${game.icon}</div>
-                        <h3>${game.name}</h3>
-                        <p>${game.desc}</p>
-                    </a>
-                `;
+                        <a href="${game.link}" class="game-card">
+                            <div class="game-icon">${game.icon}</div>
+                            <h3>${game.name}</h3>
+                            <p>${game.desc}</p>
+                        </a>
+                    `;
             });
             container.innerHTML = html;
         }
@@ -414,5 +498,63 @@
         renderArticles();
         renderGames();
     </script>
+
+    // ========== 背景音乐播放器 ==========
+const audio = new Audio('bgm.mp3');  // 改成你的音乐文件名
+audio.loop = true;                   // 循环播放
+audio.volume = 0.5;                  // 音量 0-1，0.5=50%
+
+let isPlaying = false;
+const discRotate = document.getElementById('discRotate');
+const playPauseBtn = document.getElementById('playPauseBtn');
+
+// 尝试自动播放（浏览器策略：需要用户交互后才能播放）
+function tryAutoPlay() {
+    audio.play().then(() => {
+        isPlaying = true;
+        discRotate.classList.add('playing');
+        playPauseBtn.textContent = '⏸️';
+    }).catch(() => {
+        // 浏览器阻止自动播放，显示提示
+        playPauseBtn.textContent = '▶️';
+        console.log('需要用户点击才能播放音乐');
+    });
+}
+
+// 页面加载后尝试自动播放
+document.addEventListener('click', function autoPlayOnce() {
+    if (!isPlaying) {
+        audio.play().then(() => {
+            isPlaying = true;
+            discRotate.classList.add('playing');
+            playPauseBtn.textContent = '⏸️';
+        }).catch(e => console.log('播放失败', e));
+    }
+    document.removeEventListener('click', autoPlayOnce);
+}, { once: true });
+
+// 播放/暂停按钮
+playPauseBtn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+        discRotate.classList.remove('playing');
+        playPauseBtn.textContent = '▶️';
+    } else {
+        audio.play();
+        isPlaying = true;
+        discRotate.classList.add('playing');
+        playPauseBtn.textContent = '⏸️';
+    }
+});
+
+// 可选：音乐播放结束时重新播放（loop已经处理）
+audio.addEventListener('ended', () => {
+    if (audio.loop) {
+        audio.play();
+    }
+});
+
 </body>
 </html>
