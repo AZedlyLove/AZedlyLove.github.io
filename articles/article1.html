@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>随笔-1 - AZedlyLove的网站</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: #1a1a2e;
+            min-height: 100vh;
+            position: relative;
+        }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('../background.jpg');
+                background-size: cover;
+                background-position: center;
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+                z-index: -2;
+            }
+
+            body::after {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.7);
+                z-index: -1;
+            }
+
+        .navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+            .nav-links a {
+                position: relative;
+                display: inline-block;
+                padding: 0.5rem 0;
+                color: #333;
+                text-decoration: none;
+                font-weight: 500;
+                transition: color 0.2s ease;
+                line-height: 1;
+            }
+
+                .nav-links a::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background: #667eea;
+                    transform: scaleX(0);
+                    transition: transform 0.25s ease;
+                    transform-origin: center;
+                }
+
+                .nav-links a:hover::after,
+                .nav-links a.active::after {
+                    transform: scaleX(1);
+                }
+
+                .nav-links a:hover,
+                .nav-links a.active {
+                    color: #667eea;
+                }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .article-content {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(5px);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+            .article-content h1 {
+                font-size: 2rem;
+                margin-bottom: 0.5rem;
+                color: #1a1a2e;
+            }
+
+        .article-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .article-content h2 {
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            color: #1a1a2e;
+        }
+
+        .article-content h3 {
+            font-size: 1.2rem;
+            margin: 1rem 0 0.5rem;
+            color: #1a1a2e;
+        }
+
+        .article-content p {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            color: #444;
+        }
+
+        .article-content img {
+            max-width: 100%;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .article-content pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .article-content code {
+            background: #f4f4f4;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-family: monospace;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .article-content {
+                padding: 1.5rem;
+            }
+
+                .article-content h1 {
+                    font-size: 1.5rem;
+                }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">AZedlyLove</div>
+            <div class="nav-links">
+                <a href="../index.html">首页</a>
+                <a href="../articles.html" class="active">文章</a>
+                <a href="../games.html">游戏</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="article-content">
+            <h1>随笔-1</h1>
+            <div class="article-meta">2026-06-13 | AZedlyLove</div>
+
+            <p>“如果一个人看起来比真实年龄大，那么这个人应该独自走过很长一段路。”</p>
+            <p>4月时很多树的叶子就开始变绿了，这棵也不例外。我并不知道它的名字，只是我每天都会看见它，看着它的叶子从凋零慢慢变白，然后慢慢变绿。它也是独自感受着季节的变化，一遍又一遍，一年又一年。</p>
+            <p>有幸的是，不知不觉中，我也见证了二十几个春天，与这颗星球一起围绕着它的恒星旋转了二十几圈。</p>
+            <p>这个网站只是我脑子一热随手搭建的，没有什么功能，更没有精美的界面，我也不想再花时间去让它变得精美。我甚至连搭建它的目的都不知道,或许是想尝试不同的东西，又或许只是虚荣心作祟觉得应该留下点什么吧。</p>
+
+            <!--<h2>一级小标题</h2>
+    <p>这是小标题下的正文内容。</p>
+
+    <h3>二级小标题</h3>
+    <p>这是更详细的内容。</p>
+
+    <p>可以包含<strong>粗体</strong>、<em>斜体</em>、<a href="#">链接</a>等格式。</p>-->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 我的个人网站</p>
+    </footer>
+</body>
+</html>
